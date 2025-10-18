@@ -1,23 +1,41 @@
 import React from "react";
+import { use } from "react";
 import { Link } from "react-router";
+import { AuthContext } from "../Provider/AuthProvider";
 
 const Register = () => {
+  const { createUser, setUser } = use(AuthContext);
+  const handleRegister = (event) => {
+    event.preventDefault();
+    const name = event.target.name.value;
+    const photo = event.target.photo.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
+    createUser(email, password)
+      .then((result) => {
+        setUser(result.user);
+      })
+      .catch((error) => {
+        alert(`Error found ${error}`);
+      });
+  };
   return (
     <div className="bg-gray-100 flex justify-center items-center min-h-screen">
       <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md text-center border border-gray-100">
         <h2 className="text-2xl font-semibold mb-6">Register your account</h2>
         <hr className="mb-6 border-gray-200" />
 
-        <form className="text-left">
+        <form onSubmit={handleRegister} className="text-left">
           {/* Name */}
           <label htmlFor="name" className="block text-sm font-semibold mb-2">
             Your Name
           </label>
           <input
             type="text"
-            id="name"
+            name="name"
             placeholder="Enter your name"
             className="w-full p-3 mb-4 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            required
           />
 
           {/* Photo URL */}
@@ -26,7 +44,7 @@ const Register = () => {
           </label>
           <input
             type="text"
-            id="photo"
+            name="photo"
             placeholder="Enter your photo URL"
             className="w-full p-3 mb-4 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
           />
@@ -37,9 +55,10 @@ const Register = () => {
           </label>
           <input
             type="email"
-            id="email"
+            name="email"
             placeholder="Enter your email address"
             className="w-full p-3 mb-4 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            required
           />
 
           {/* Password */}
@@ -51,17 +70,19 @@ const Register = () => {
           </label>
           <input
             type="password"
-            id="password"
+            name="password"
             placeholder="Enter your password"
             className="w-full p-3 mb-4 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            required
           />
 
           {/* Terms & Conditions */}
           <div className="flex items-center mb-6">
             <input
               type="checkbox"
-              id="terms"
+              name="terms"
               className="mr-2 accent-gray-800"
+              required
             />
             <label htmlFor="terms" className="text-sm text-gray-600">
               Accept{" "}

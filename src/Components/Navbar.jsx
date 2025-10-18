@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router";
 import userImg from "../assets/user.png";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
+import { use } from "react";
+import { AuthContext } from "../Provider/AuthProvider";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const { user } = use(AuthContext);
   return (
     <div className="relative">
       {/* Desktop & Mobile Header */}
