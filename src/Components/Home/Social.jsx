@@ -4,7 +4,7 @@ const Social = () => {
   return (
     <div>
       <h1 className="font-bold text-xl">Login With</h1>
-      <div className="flex flex-col justify-end gap-3 px-10 py-3">
+      <div className="flex flex-col justify-end gap-3  py-3">
         <button className="btn bg-white text-black border-[#e5e5e5] hover:btn-primary ">
           <svg
             aria-label="Google logo"

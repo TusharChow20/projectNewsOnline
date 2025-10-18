@@ -1,7 +1,8 @@
 import React from "react";
+import { Navigate } from "react-router";
 
 const Home = () => {
-  return <div>THis is home</div>;
+  return <Navigate to={'/'}></Navigate>;
 };
 
 export default Home;
