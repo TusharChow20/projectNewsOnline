@@ -3,6 +3,9 @@ import RootLayout from "../Layout/RootLayout";
 import Home from "../Pages/Home";
 import NewsCategory from "../Pages/NewsCategory";
 import axios from "axios";
+import Login from "../Pages/Login";
+import Register from "../Pages/Register";
+import AuthLayout from "../Layout/AuthLayout";
 
 const router = createBrowserRouter([
   {
@@ -22,8 +25,18 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/authentication",
-    element: <p>Authentication </p>,
+    path: "/auth",
+    Component: AuthLayout,
+    children: [
+      {
+        path: "/auth/login",
+        Component: Login,
+      },
+      {
+        path: "/auth/register",
+        Component: Register,
+      },
+    ],
   },
   {
     path: "/news",
