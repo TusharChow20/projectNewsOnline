@@ -19,14 +19,14 @@ const RootLayout = () => {
         </nav>
       </header>
       <main className="w-11/12 mx-auto mt-10 grid grid-cols-12">
-        <aside className="col-span-3">
+        <aside className="col-span-3 sticky h-fit top-3">
           <Left></Left>
         </aside>
         <main className="col-span-6">
           <Outlet></Outlet>
         </main>
 
-        <aside className="col-span-3">
+        <aside className="col-span-3 self-start sticky h-fit top-0">
           <Right></Right>
         </aside>
       </main>
