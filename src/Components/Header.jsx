@@ -11,7 +11,6 @@ const Header = () => {
       <p className="text-[10px]  text-accent mt-3">
         {format(new Date(), "EEEE, MMMM d, yyyy")}
       </p>
-      <p>Changes</p>
     </div>
   );
 };

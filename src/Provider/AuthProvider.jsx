@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import React from "react";
 import { useState } from "react";
 import { createContext } from "react";
-import auth from "../FireBase/firebase.config,";
+import auth from "../FireBase/firebase.config.js";
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
