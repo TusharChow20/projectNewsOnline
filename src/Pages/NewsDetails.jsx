@@ -25,7 +25,7 @@ const NewsDetails = () => {
       </header>
       <div className="grid grid-cols-12">
         <div className="col-span-9">
-          <div className="">
+          <div className="mt-6">
             <NewsDetailsCart news={news}></NewsDetailsCart>
           </div>
         </div>

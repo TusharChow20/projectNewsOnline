@@ -1,18 +1,27 @@
 import React from "react";
 import { use } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
+import { useState } from "react";
 
 const Login = () => {
   const { signIn, setUser } = use(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [error, setError] = useState();
   const hanldeLogin = (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
     // console.log(email, password);
     signIn(email, password)
-      .then((result) => setUser(result.user))
-      .catch((error) => console.log(error));
+      .then((result) => {
+        setUser(result.user);
+        navigate(`${location.state ? location.state : "/"}`);
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
   return (
     <div className="bg-gray-100 flex justify-center items-center min-h-screen">
@@ -30,6 +39,7 @@ const Login = () => {
             id="email"
             placeholder="Enter your email address"
             className="w-full p-3 mb-4 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            required
           />
 
           <label
@@ -44,13 +54,15 @@ const Login = () => {
             id="password"
             placeholder="Enter your password"
             className="w-full p-3  bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            required
           />
-          <p className="mt-2 mb-6 text-red-500 btn bg-transparent border-0 shadow-none">
+          <p className="mt-2  text-red-500 btn bg-transparent border-0 shadow-none">
             Forget Password ?
           </p>
+          {error && <p className="text-rose-400 text-sm">{error}</p>}
           <button
             type="submit"
-            className="w-full bg-gray-800 text-white font-semibold py-3 rounded-md hover:bg-gray-900 transition-colors"
+            className="mt-6 w-full bg-gray-800 text-white font-semibold py-3 rounded-md hover:bg-gray-900 transition-colors"
           >
             Login
           </button>

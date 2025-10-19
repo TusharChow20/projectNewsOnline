@@ -2,15 +2,23 @@ import React from "react";
 import { use } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
+import { useState } from "react";
 
 const Register = () => {
   const { createUser, setUser } = use(AuthContext);
+  const [nameError, setNameError] = useState("");
   const handleRegister = (event) => {
     event.preventDefault();
     const name = event.target.name.value;
     const photo = event.target.photo.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
+    if (name.length < 3) {
+      setNameError("The length of your name should be more then 3");
+      return;
+    } else {
+      setNameError("");
+    }
     createUser(email, password)
       .then((result) => {
         setUser(result.user);
@@ -37,6 +45,9 @@ const Register = () => {
             className="w-full p-3 mb-4 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             required
           />
+          {
+            nameError&& <p className="text-red-200">{nameError}</p>
+          }
 
           {/* Photo URL */}
           <label htmlFor="photo" className="block text-sm font-semibold mb-2">
