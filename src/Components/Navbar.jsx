@@ -7,7 +7,14 @@ import { AuthContext } from "../Provider/AuthProvider";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user } = use(AuthContext);
+  const { user, sinOut } = use(AuthContext);
+  const handleLogout = () => {
+    sinOut()
+      .then(() => {
+        alert("Logged Out");
+      })
+      .catch();
+  };
   return (
     <div className="relative">
       {/* Desktop & Mobile Header */}
@@ -56,12 +63,22 @@ const Navbar = () => {
             alt="User"
             className="w-8 h-8 lg:w-10 lg:h-10 rounded-full"
           />
-          <Link
-            to={"/auth/login"}
-            className="btn btn-secondary btn-sm lg:btn-md px-4 lg:px-10"
-          >
-            Login
-          </Link>
+          {user ? (
+            <Link
+              onClick={handleLogout}
+              className="btn btn-secondary btn-sm lg:btn-md px-4 lg:px-10"
+            >
+              {" "}
+              Logout
+            </Link>
+          ) : (
+            <Link
+              to={"/auth/login"}
+              className="btn btn-secondary btn-sm lg:btn-md px-4 lg:px-10"
+            >
+              Login
+            </Link>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
