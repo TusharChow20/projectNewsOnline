@@ -11,7 +11,7 @@ const Login = () => {
     const password = event.target.password.value;
     // console.log(email, password);
     signIn(email, password)
-      .then((result) => setUser(result))
+      .then((result) => setUser(result.user))
       .catch((error) => console.log(error));
   };
   return (
