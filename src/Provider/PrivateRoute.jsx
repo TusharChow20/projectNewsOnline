@@ -4,10 +4,12 @@ import { AuthContext } from "./AuthProvider";
 import { Link, Navigate } from "react-router";
 
 const PrivateRoute = ({ children }) => {
-  const { user } = use(AuthContext);
+  const { user, load } = use(AuthContext);
+  if (load) {
+    return <span className="loading loading-ring loading-xl"></span>;
+  }
   return (
     <div>
-      <h1>Private Route</h1>
       {user && user?.email ? (
         children
       ) : (
