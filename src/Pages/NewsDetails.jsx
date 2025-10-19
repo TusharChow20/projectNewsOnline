@@ -5,6 +5,7 @@ import NewsDetailsCart from "./NewsDetailsCart";
 import { useLoaderData, useParams } from "react-router";
 import { useState } from "react";
 import { useEffect } from "react";
+import Navbar from "../Components/Navbar";
 
 const NewsDetails = () => {
   const [news, setNews] = useState({});
@@ -19,12 +20,16 @@ const NewsDetails = () => {
       <header>
         <Header></Header>
       </header>
+      <header className="w-11/12 mx-auto py-2">
+        <Navbar></Navbar>
+      </header>
       <div className="grid grid-cols-12">
         <div className="col-span-9">
-          <h1 className="px-10 font-semibold text-2xl mb-13">Online News</h1>
-          <NewsDetailsCart news={news}></NewsDetailsCart>
+          <div className="">
+            <NewsDetailsCart news={news}></NewsDetailsCart>
+          </div>
         </div>
-        <div className="col-span-3">
+        <div className="col-span-3 mt-3">
           <Right></Right>
         </div>
       </div>
