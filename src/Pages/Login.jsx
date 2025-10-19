@@ -4,14 +4,15 @@ import { Link } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const Login = () => {
-  const { signIn } = use(AuthContext);
+  const { signIn, setUser } = use(AuthContext);
   const hanldeLogin = (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
     // console.log(email, password);
-    signIn(email, password);
-    
+    signIn(email, password)
+      .then((result) => setUser(result))
+      .catch((error) => console.log(error));
   };
   return (
     <div className="bg-gray-100 flex justify-center items-center min-h-screen">
