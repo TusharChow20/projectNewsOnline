@@ -6,6 +6,7 @@ import axios from "axios";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import AuthLayout from "../Layout/AuthLayout";
+import NewsDetails from "../Pages/NewsDetails";
 
 const router = createBrowserRouter([
   {
@@ -39,8 +40,9 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/news",
-    element: <p>News</p>,
+    path: "/news/:id",
+    Component: NewsDetails,
+    loader: () => axios("/news.json"),
   },
   {
     path: "/*",

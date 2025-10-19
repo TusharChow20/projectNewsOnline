@@ -6,7 +6,7 @@ import { FaStar, FaRegEye, FaShareAlt } from "react-icons/fa";
 // import { AuthContext } from "../Provider/AuthProvider";
 
 const NewsCart = ({ eachNews }) => {
-  const { title, author, image_url, details, rating, total_view, _id } =
+  const { title, author, image_url, details, rating, total_view, id } =
     eachNews;
 
   return (
@@ -52,7 +52,7 @@ const NewsCart = ({ eachNews }) => {
       <div className="px-2 sm:px-4 py-3 text-gray-600 text-sm sm:text-base leading-relaxed">
         {details.slice(0, 120)}...
         <Link
-          to={`/news/${_id}`}
+          to={`/news/${id}`}
           className="text-orange-600 font-medium cursor-pointer hover:underline ml-1"
         >
           Read More
