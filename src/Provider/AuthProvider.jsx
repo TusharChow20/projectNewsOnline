@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
@@ -15,31 +16,54 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [load, setLoad] = useState(true);
+
+  // Create new user with email and password
   const createUser = (email, password) => {
+    setLoad(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
+
+  // Sign in existing user
   const signIn = (email, password) => {
+    setLoad(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
+
+  // Log out user
   const logOut = () => {
     setLoad(true);
     return signOut(auth);
   };
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoad(false);
-    });
-    return () => unsubscribe();
-  }, []);
 
-  const updateUser = (updateData) => {
-    // console.log({ updateData });
+  // Update user profile (name, photo)
+  const updateUserProfile = (updateData) => {
+    if (!auth.currentUser) {
+      return Promise.reject(new Error("No user is currently signed in"));
+    }
     return updateProfile(auth.currentUser, {
       displayName: updateData.displayName,
       photoURL: updateData.photoURL,
     });
   };
+
+  // Send email verification to current user
+  const verifyEmail = () => {
+    if (!auth.currentUser) {
+      return Promise.reject(new Error("No user is currently signed in"));
+    }
+    return sendEmailVerification(auth.currentUser);
+  };
+
+  // Monitor auth state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoad(false);
+      console.log("Auth state changed:", currentUser?.email);
+    });
+    return () => unsubscribe();
+  }, []);
+
   const authData = {
     user,
     setUser,
@@ -48,7 +72,8 @@ const AuthProvider = ({ children }) => {
     logOut,
     load,
     setLoad,
-    updateUser,
+    updateUserProfile,
+    verifyEmail,
   };
   return <AuthContext value={authData}>{children}</AuthContext>;
 };
