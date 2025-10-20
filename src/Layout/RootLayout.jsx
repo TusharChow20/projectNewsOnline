@@ -1,10 +1,11 @@
 import React from "react";
-import { Outlet } from "react-router";
+import { Outlet, useNavigation } from "react-router";
 import Header from "../Components/HEader";
 import LatestNews from "../Components/LatestNews";
 import Navbar from "../Components/Navbar";
 import Left from "../Components/Home/Left";
 import Right from "../Components/Home/Right";
+import Loading from "../Pages/Loading";
 
 // const RootLayout = () => {
 //   return (
@@ -34,6 +35,7 @@ import Right from "../Components/Home/Right";
 //   );
 // };
 const RootLayout = () => {
+  const { state } = useNavigation();
   return (
     <div className="min-h-screen bg-base-100">
       <header>
@@ -54,7 +56,7 @@ const RootLayout = () => {
 
         {/* Main Content Area */}
         <section className="col-span-1 lg:col-span-6">
-          <Outlet />
+          {state == "loading" ? <Loading /> : <Outlet />}
         </section>
 
         {/* Right Sidebar - Social & Extras (Hidden on mobile, shown on large screens) */}
