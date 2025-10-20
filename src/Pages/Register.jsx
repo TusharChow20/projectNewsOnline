@@ -5,7 +5,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 import { useState } from "react";
 
 const Register = () => {
-  const { createUser, setUser } = use(AuthContext);
+  const { createUser, setUser, updateUser } = use(AuthContext);
   const [nameError, setNameError] = useState("");
   const handleRegister = (event) => {
     event.preventDefault();
@@ -21,10 +21,23 @@ const Register = () => {
     }
     createUser(email, password)
       .then((result) => {
-        setUser(result.user);
+        // console.log({photo, email});
+
+        updateUser({
+          displayName: name,
+          photoURL: photo,
+        })
+          .then(() => {
+            setUser({ ...result.user, displayName: name, photoURL: photo });
+            console.log("Profile updated:", name, photo);
+          })
+          .catch((error) => {
+            console.log("Profile update error:", error);
+            setUser(result.user);
+          });
       })
       .catch((error) => {
-        alert(`Error found ${error}`);
+        alert(`Error: ${error.message}`);
       });
   };
   return (
@@ -45,9 +58,7 @@ const Register = () => {
             className="w-full p-3 mb-4 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             required
           />
-          {
-            nameError&& <p className="text-red-200">{nameError}</p>
-          }
+          {nameError && <p className="text-red-200">{nameError}</p>}
 
           {/* Photo URL */}
           <label htmlFor="photo" className="block text-sm font-semibold mb-2">

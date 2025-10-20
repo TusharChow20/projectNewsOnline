@@ -15,6 +15,8 @@ const Navbar = () => {
       })
       .catch();
   };
+  console.log(user);
+
   return (
     <div className="relative">
       {/* Desktop & Mobile Header */}
@@ -59,10 +61,11 @@ const Navbar = () => {
         {/* Desktop Login */}
         <div className="hidden md:flex login gap-2 lg:gap-3 items-center">
           <img
-            src={userImg}
-            alt="User"
             className="w-8 h-8 lg:w-10 lg:h-10 rounded-full"
+            src={`${user ? user.photoURL : userImg}`}
+            alt=""
           />
+
           {user ? (
             <Link
               onClick={handleLogout}
