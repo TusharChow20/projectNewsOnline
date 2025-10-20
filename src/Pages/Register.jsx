@@ -20,7 +20,6 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    // Validate name
     if (name.length < 3) {
       setNameError("The length of your name should be more than 3 characters");
       setShowErrorAnimation(true);
@@ -37,7 +36,6 @@ const Register = () => {
       setNameError("");
     }
 
-    // Validate password
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     if (!passwordRegex.test(password)) {
@@ -63,7 +61,6 @@ const Register = () => {
     }
 
     try {
-      // Show loading
       Swal.fire({
         title: "Creating Account...",
         text: "Please wait",
@@ -73,25 +70,20 @@ const Register = () => {
         },
       });
 
-      // Step 1: Create user
       const result = await createUser(email, password);
       console.log("User created:", result.user.uid);
 
-      // Step 2: Update profile
       await updateUserProfile({
         displayName: name,
         photoURL: photo,
       });
       console.log("Profile updated");
 
-      // Step 3: Send verification email
       await verifyEmail();
       console.log("Verification email sent");
 
-      // Step 4: Update state
       setUser({ ...result.user, displayName: name, photoURL: photo });
 
-      // Step 5: Show success message
       Swal.fire({
         icon: "success",
         title: "Registration Successful!",
@@ -105,19 +97,15 @@ const Register = () => {
         confirmButtonText: "OK, Got it!",
         allowOutsideClick: false,
       }).then(async () => {
-        // Step 6: Log out and redirect
         await logOut();
         navigate("/auth/login");
       });
 
-      // Reset form
       form.reset();
     } catch (error) {
       console.error("Registration error:", error);
       setShowErrorAnimation(true);
       setTimeout(() => setShowErrorAnimation(false), 3000);
-
-      // Handle specific errors
       let errorMessage = "Something went wrong. Please try again.";
       let errorTitle = "Registration Failed";
 
@@ -158,7 +146,6 @@ const Register = () => {
         <h2 className="text-2xl font-semibold mb-6">Register your account</h2>
         <hr className="mb-6 border-gray-200" />
 
-        {/* Error Animation */}
         {showErrorAnimation && (
           <div className="mb-4">
             <Lottie
@@ -170,7 +157,6 @@ const Register = () => {
         )}
 
         <form onSubmit={handleRegister} className="text-left">
-          {/* Name */}
           <label htmlFor="name" className="block text-sm font-semibold mb-2">
             Your Name
           </label>
@@ -184,8 +170,6 @@ const Register = () => {
           {nameError && (
             <p className="text-red-500 text-sm mb-4">{nameError}</p>
           )}
-
-          {/* Photo URL */}
           <label
             htmlFor="photo"
             className="block text-sm font-semibold mb-2 mt-4"
@@ -198,8 +182,6 @@ const Register = () => {
             placeholder="Enter your photo URL (optional)"
             className="w-full p-3 mb-4 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
           />
-
-          {/* Email */}
           <label htmlFor="email" className="block text-sm font-semibold mb-2">
             Email
           </label>
@@ -211,7 +193,6 @@ const Register = () => {
             required
           />
 
-          {/* Password */}
           <label
             htmlFor="password"
             className="block text-sm font-semibold mb-2"
@@ -225,8 +206,6 @@ const Register = () => {
             className="w-full p-3 mb-4 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             required
           />
-
-          {/* Terms & Conditions */}
           <div className="flex items-center mb-6">
             <input
               type="checkbox"
@@ -243,15 +222,12 @@ const Register = () => {
             </label>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-gray-800 text-white font-semibold py-3 rounded-md hover:bg-gray-900 transition-colors"
           >
             Register
           </button>
-
-          {/* Login Link */}
           <p className="mt-4 text-center text-sm text-gray-600">
             Already Have an Account?{" "}
             <Link

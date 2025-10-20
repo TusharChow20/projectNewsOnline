@@ -17,25 +17,21 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [load, setLoad] = useState(true);
 
-  // Create new user with email and password
   const createUser = (email, password) => {
     setLoad(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  // Sign in existing user
   const signIn = (email, password) => {
     setLoad(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  // Log out user
   const logOut = () => {
     setLoad(true);
     return signOut(auth);
   };
 
-  // Update user profile (name, photo)
   const updateUserProfile = (updateData) => {
     if (!auth.currentUser) {
       return Promise.reject(new Error("No user is currently signed in"));
@@ -46,7 +42,6 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  // Send email verification to current user
   const verifyEmail = () => {
     if (!auth.currentUser) {
       return Promise.reject(new Error("No user is currently signed in"));
@@ -54,7 +49,6 @@ const AuthProvider = ({ children }) => {
     return sendEmailVerification(auth.currentUser);
   };
 
-  // Monitor auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
