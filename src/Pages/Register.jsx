@@ -29,11 +29,11 @@ const Register = () => {
         })
           .then(() => {
             setUser({ ...result.user, displayName: name, photoURL: photo });
-            console.log("Profile updated:", name, photo);
+            // console.log("Profile updated:", name, photo);
           })
           .catch((error) => {
-            console.log("Profile update error:", error);
-            setUser(result.user);
+            // console.log("Profile update error:", error);
+            // setUser(result.user);
           });
       })
       .catch((error) => {
