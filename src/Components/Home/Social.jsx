@@ -1,8 +1,20 @@
-import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import React from "react";
 import auth from "../../FireBase/firebase.config";
 const githubProvider = new GithubAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 const Social = () => {
+  const handleGoogle = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => console.log(error));
+  };
   const handleGithub = () => {
     signInWithPopup(auth, githubProvider)
       .then((result) => {
@@ -16,7 +28,10 @@ const Social = () => {
     <div>
       <h1 className="font-bold text-xl">Login With</h1>
       <div className="flex flex-col justify-end gap-3  py-3">
-        <button className="btn bg-white text-black border-[#e5e5e5] hover:btn-primary ">
+        <button
+          onClick={handleGoogle}
+          className="btn bg-white text-black border-[#e5e5e5] hover:btn-primary "
+        >
           <svg
             aria-label="Google logo"
             width="16"
