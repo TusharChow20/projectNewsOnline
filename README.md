@@ -20,9 +20,9 @@ A modern, feature-rich news platform built with React and Firebase, offering rea
 
 <div align="center">
 
-| 🔐 Authentication | 📱 Responsive Design |    🎨 Modern UI     | 🔔 Real-time Updates |
-| :---------------: | :------------------: | :-----------------: | :------------------: |
-| **Secure Login**  |   **Mobile-First**   | **Sleek Interface** |  **Live News Feed**  |
+| 🔐 Authentication  |    🎨 Modern UI     | 🔔 Modern Animation        |
+| :---------------:  |  :-----------------: | :------------------:       |
+| **Secure Login**   | **Sleek Interface**  |  **Marquee React-Lottie**  |
 
 </div>
 
@@ -101,7 +101,7 @@ A modern, feature-rich news platform built with React and Firebase, offering rea
 
 ---
 
-## 📦 NPM Packages Used
+## 📦 NPM/PNPM Packages Used
 
 ```json
 {
@@ -197,9 +197,9 @@ the-hide-news-online/
 ├── 📦 node_modules/
 ├── 📁 public/
 │   ├── categories.json
-│   ├── error.json          # Lottie error animation
-│   ├── loading.json        # Loading animation
-│   └── news.json           # News data
+│   ├── error.json          
+│   ├── loading.json        
+│   └── news.json           
 ├── 📁 src/
 │   ├── 📂 assets/
 │   ├── 📂 Components/
@@ -220,17 +220,17 @@ the-hide-news-online/
 │   │   ├── NewsDetails.jsx
 │   │   └── Register.jsx
 │   ├── 📂 Provider/
-│   │   └── AuthProvider.jsx  # Authentication context
+│   │   └── AuthProvider.jsx  
 │   ├── 📂 Routes/
-│   │   └── PrivateRoutes.jsx # Protected routes
+│   │   └── PrivateRoutes.jsx 
 │   ├── 📂 FireBase/
-│   │   └── firebase.config.js # Firebase configuration
-│   ├── App.jsx              # Main app component
-│   ├── index.css           # Global styles
-│   └── main.jsx            # Entry point
-├── .env                     # Environment variables
-├── .eslintrc.cjs           # ESLint configuration
-├── .firebaserc             # Firebase config
+│   │   └── firebase.config.js 
+│   ├── App.jsx              
+│   ├── index.css           
+│   └── main.jsx            
+├── .env                    
+├── .eslintrc.cjs           
+├── .firebaserc            
 ├── .gitignore
 ├── eslint.config.js
 ├── firebase.json
