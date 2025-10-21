@@ -1,41 +1,181 @@
+import React, { useContext } from "react";
+import { useNavigate, useLocation } from "react-router";
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import React from "react";
+import Swal from "sweetalert2";
+// import { AuthContext } from "../Provider/AuthProvider";
+// import auth from "../FireBase/firebase.config";
+import { AuthContext } from "../../Provider/AuthProvider";
 import auth from "../../FireBase/firebase.config";
-const githubProvider = new GithubAuthProvider();
-const googleProvider = new GoogleAuthProvider();
+
 const Social = () => {
-  const handleGoogle = () => {
-    signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        console.log(result.user);
-      })
-      .catch((error) => console.log(error));
-  };
-  const handleGithub = () => {
-    signInWithPopup(auth, githubProvider)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
+  const { setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const googleProvider = new GoogleAuthProvider();
+  const githubProvider = new GithubAuthProvider();
+
+  const handleGoogle = async () => {
+    try {
+      // Show loading
+      Swal.fire({
+        title: "Connecting to Google...",
+        text: "Please wait",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
       });
+
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log("Google login successful:", result.user);
+
+      // Update user state
+      setUser(result.user);
+
+      // Show success message
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful!",
+        text: `Welcome, ${result.user.displayName || "User"}!`,
+        confirmButtonColor: "#1f2937",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
+      // Navigate after success
+      setTimeout(() => {
+        navigate(location.state?.from || "/");
+      }, 1500);
+    } catch (error) {
+      console.error("Google login error:", error);
+
+      let errorMessage = "Failed to login with Google. Please try again.";
+      let errorTitle = "Google Login Failed";
+
+      // Handle specific errors
+      if (error.code === "auth/popup-closed-by-user") {
+        errorMessage = "Login cancelled. Please try again.";
+        errorTitle = "Login Cancelled";
+      } else if (error.code === "auth/popup-blocked") {
+        errorMessage =
+          "Popup was blocked by browser. Please allow popups and try again.";
+        errorTitle = "Popup Blocked";
+      } else if (error.code === "auth/cancelled-popup-request") {
+        errorMessage = "Another popup is already open. Please close it first.";
+        errorTitle = "Popup Already Open";
+      } else if (
+        error.code === "auth/account-exists-with-different-credential"
+      ) {
+        errorMessage =
+          "An account already exists with this email using a different login method.";
+        errorTitle = "Account Exists";
+      } else if (error.code === "auth/network-request-failed") {
+        errorMessage =
+          "Network error. Please check your internet connection and try again.";
+        errorTitle = "Network Error";
+      } else {
+        errorMessage = error.message || errorMessage;
+      }
+
+      Swal.fire({
+        icon: "error",
+        title: errorTitle,
+        text: errorMessage,
+        confirmButtonColor: "#1f2937",
+      });
+    }
   };
+
+  const handleGithub = async () => {
+    try {
+      // Show loading
+      Swal.fire({
+        title: "Connecting to GitHub...",
+        text: "Please wait",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      const result = await signInWithPopup(auth, githubProvider);
+      console.log("GitHub login successful:", result.user);
+
+      // Update user state
+      setUser(result.user);
+
+      // Show success message
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful!",
+        text: `Welcome, ${result.user.displayName || "User"}!`,
+        confirmButtonColor: "#1f2937",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
+      // Navigate after success
+      setTimeout(() => {
+        navigate(location.state?.from || "/");
+      }, 1500);
+    } catch (error) {
+      console.error("GitHub login error:", error);
+
+      let errorMessage = "Failed to login with GitHub. Please try again.";
+      let errorTitle = "GitHub Login Failed";
+
+      // Handle specific errors
+      if (error.code === "auth/popup-closed-by-user") {
+        errorMessage = "Login cancelled. Please try again.";
+        errorTitle = "Login Cancelled";
+      } else if (error.code === "auth/popup-blocked") {
+        errorMessage =
+          "Popup was blocked by browser. Please allow popups and try again.";
+        errorTitle = "Popup Blocked";
+      } else if (error.code === "auth/cancelled-popup-request") {
+        errorMessage = "Another popup is already open. Please close it first.";
+        errorTitle = "Popup Already Open";
+      } else if (
+        error.code === "auth/account-exists-with-different-credential"
+      ) {
+        errorMessage =
+          "An account already exists with this email using a different login method.";
+        errorTitle = "Account Exists";
+      } else if (error.code === "auth/network-request-failed") {
+        errorMessage =
+          "Network error. Please check your internet connection and try again.";
+        errorTitle = "Network Error";
+      } else {
+        errorMessage = error.message || errorMessage;
+      }
+
+      Swal.fire({
+        icon: "error",
+        title: errorTitle,
+        text: errorMessage,
+        confirmButtonColor: "#1f2937",
+      });
+    }
+  };
+
   return (
-    <div>
-      <h1 className="font-bold text-xl">Login With</h1>
-      <div className="flex flex-col justify-end gap-3  py-3">
+    <div className="mt-6">
+      <h1 className="font-bold text-xl mb-3 text-center">Login With</h1>
+      <div className="flex flex-col gap-3">
+        {/* Google Login Button */}
         <button
           onClick={handleGoogle}
-          className="btn bg-white text-black border-[#e5e5e5] hover:btn-primary "
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white text-gray-700 font-semibold border border-gray-300 rounded-md hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 shadow-sm"
         >
           <svg
             aria-label="Google logo"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
           >
@@ -61,14 +201,16 @@ const Social = () => {
           </svg>
           Login with Google
         </button>
+
+        {/* GitHub Login Button */}
         <button
           onClick={handleGithub}
-          className="btn bg-black text-white border-black"
+          className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-gray-900 text-white font-semibold border border-gray-900 rounded-md hover:bg-black transition-all duration-200 shadow-sm"
         >
           <svg
             aria-label="GitHub logo"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
           >
