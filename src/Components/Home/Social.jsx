@@ -1,6 +1,17 @@
+import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import React from "react";
-
+import auth from "../../FireBase/firebase.config";
+const githubProvider = new GithubAuthProvider();
 const Social = () => {
+  const handleGithub = () => {
+    signInWithPopup(auth, githubProvider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div>
       <h1 className="font-bold text-xl">Login With</h1>
@@ -35,7 +46,10 @@ const Social = () => {
           </svg>
           Login with Google
         </button>
-        <button className="btn bg-black text-white border-black">
+        <button
+          onClick={handleGithub}
+          className="btn bg-black text-white border-black"
+        >
           <svg
             aria-label="GitHub logo"
             width="16"
