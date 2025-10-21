@@ -20,16 +20,18 @@ const Social = () => {
   const githubProvider = new GithubAuthProvider();
 
   const handleGoogle = async () => {
+    console.log("clock");
+
+    Swal.fire({
+      title: "Connecting to Google...",
+      text: "Please wait",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
     try {
       // Show loading
-      Swal.fire({
-        title: "Connecting to Google...",
-        text: "Please wait",
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
-      });
 
       const result = await signInWithPopup(auth, googleProvider);
       console.log("Google login successful:", result.user);
